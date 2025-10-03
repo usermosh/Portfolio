@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* Light theme (day) variables */
+            --light-bg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --light-card-bg: rgba(255, 255, 255, 0.9);
+            --light-text: #2c3e50;
+            --light-accent: #f39c12;
+            --light-secondary: #3498db;
+            --light-shadow: rgba(0, 0, 0, 0.1);
+            
+            /* Dark theme (night) variables */
+            --dark-bg: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            --dark-card-bg: rgba(30, 30, 42, 0.9);
+            --dark-text: #ecf0f1;
+            --dark-accent: #00b4d8;
+            --dark-secondary: #8a2be2;
+            --dark-shadow: rgba(0, 0, 0, 0.4);
+            
+            /* Common variables */
+            --transition-speed: 0.5s;
+            --border-radius: 12px;
+            --card-shadow: 0 10px 20px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color var(--transition-speed) ease, 
+                        color var(--transition-speed) ease,
+                        box-shadow var(--transition-speed) ease;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            background: var(--light-bg);
+            color: var(--light-text);
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body.night-mode {
+            background: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        /* Background animations */
+        .sky-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .logo span {
+            color: var(--light-accent);
+        }
+
+        body.night-mode .logo span {
+            color: var(--dark-accent);
+        }
+
+        /* Theme toggle */
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--light-card-bg);
+            padding: 8px 15px;
+            border-radius: 30px;
+            box-shadow: var(--card-shadow) var(--light-shadow);
+            cursor: pointer;
+        }
+
+        body.night-mode .theme-toggle {
+            background: var(--dark-card-bg);
+            box-shadow: var(--card-shadow) var(--dark-shadow);
+        }
+
+        .toggle-switch {
+            width: 50px;
+            height: 24px;
+            background: var(--light-secondary);
+            border-radius: 12px;
+            position: relative;
+            transition: background-color var(--transition-speed) ease;
+        }
+
+        body.night-mode .toggle-switch {
+            background: var(--dark-secondary);
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 3px;
+            transition: transform var(--transition-speed) ease;
+        }
+
+        body.night-mode .toggle-switch::after {
+            transform: translateX(26px);
+        }
+
+        /* Hero section */
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            margin-bottom: 40px;
+            background: var(--light-card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow) var(--light-shadow);
+        }
+
+        body.night-mode .hero {
+            background: var(--dark-card-bg);
+            box-shadow: var(--card-shadow) var(--dark-shadow);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        .time-greeting {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--light-accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+
+        body.night-mode .cta-button {
+            background: var(--dark-accent);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+        }
+
+        /* Sections */
+        section {
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--light-accent);
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        body.night-mode .section-title::after {
+            background: var(--dark-accent);
+        }
+
+        /* Projects */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .project-card {
+            background: var(--light-card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--card-shadow) var(--light-shadow);
+            transition: transform 0.3s ease;
+        }
+
+        body.night-mode .project-card {
+            background: var(--dark-card-bg);
+            box-shadow: var(--card-shadow) var(--dark-shadow);
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .project-img {
+            height: 200px;
+            background: linear-gradient(45deg, var(--light-secondary), var(--light-accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        body.night-mode .project-img {
+            background: linear-gradient(45deg, var(--dark-secondary), var(--dark-accent));
+        }
+
+        .project-content {
+            padding: 20px;
+        }
+
+        .project-title {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        /* About */
+        .about-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .about-card {
+            background: var(--light-card-bg);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--card-shadow) var(--light-shadow);
+            max-width: 800px;
+            width: 100%;
+        }
+
+        body.night-mode .about-card {
+            background: var(--dark-card-bg);
+            box-shadow: var(--card-shadow) var(--dark-shadow);
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .skill {
+            background: var(--light-secondary);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        body.night-mode .skill {
+            background: var(--dark-secondary);
+        }
+
+        /* Contact */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--light-card-bg);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow) var(--light-shadow);
+        }
+
+        body.night-mode .contact-form {
+            background: var(--dark-card-bg);
+            box-shadow: var(--card-shadow) var(--dark-shadow);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.8);
+            font-family: 'Inter', sans-serif;
+        }
+
+        body.night-mode .form-group input,
+        body.night-mode .form-group textarea {
+            border: 1px solid #444;
+            background: rgba(30, 30, 42, 0.8);
+            color: var(--dark-text);
+        }
+
+        .submit-btn {
+            background: var(--light-accent);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        body.night-mode .submit-btn {
+            background: var(--dark-accent);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 40px;
+            border-top: 1px solid #ddd;
+        }
+
+        body.night-mode footer {
+            border-top: 1px solid #444;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .social-links a {
+            color: var(--light-text);
+            font-size: 1.5rem;
+        }
+
+        body.night-mode .social-links a {
+            color: var(--dark-text);
+        }
+
+        /* Live clock */
+        .live-clock {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--light-card-bg);
+            padding: 10px 15px;
+            border-radius: 30px;
+            box-shadow: var(--card-shadow) var(--light-shadow);
+            font-weight: 600;
+            z-index: 100;
+        }
+
+        body.night-mode .live-clock {
+            background: var(--dark-card-bg);
+            box-shadow: var(--card-shadow) var(--dark-shadow);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .time-greeting {
+                font-size: 1.5rem;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .live-clock {
+                top: 10px;
+                right: 10px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes twinkle {
+            0% { opacity: 0.2; }
+            50% { opacity: 1; }
+            100% { opacity: 0.2; }
+        }
+
+        @keyframes shoot {
+            0% { transform: translateX(-100%) translateY(-100%); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: translateX(100vw) translateY(100vh); opacity: 0; }
+        }
+
+        @keyframes rays {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 4s infinite;
+        }
+
+        .shooting-star {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
+            animation: shoot 5s infinite;
+        }
+
+        .sun-rays {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%);
+            animation: rays 60s infinite linear;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background animation container -->
+    <div class="sky-animation" id="sky-animation"></div>
+    
+    <!-- Live clock -->
+    <div class="live-clock" id="live-clock">12:00:00 PM</div>
+    
+    <div class="container">
+        <header>
+            <div class="logo">Portfo<span>lio</span></div>
+            <div class="theme-toggle" id="theme-toggle">
+                <i class="fas fa-sun"></i>
+                <div class="toggle-switch"></div>
+                <i class="fas fa-moon"></i>
+            </div>
+        </header>
+        
+        <section class="hero">
+            <h1>I'm Mark, a Creative Developer</h1>
+            <p>I create beautiful, functional web experiences that adapt to your environment and time of day.</p>
+            <div class="time-greeting" id="time-greeting">
+                <span id="greeting-text">Good Morning</span>
+                <span id="greeting-emoji">🌞</span>
+            </div>
+            <a href="#contact" class="cta-button">Get in Touch</a>
+        </section>
+        
+        <section id="projects">
+            <h2 class="section-title">My Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-img">
+                        <i class="fas fa-bug"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Bug Hunter</h3>
+                        <p>A game I created to practice my Java skills hunt bugs and level up while learning coding mechanics!</p>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-img">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Music Experiments</h3>
+                        <p>Exploring interactive music coding projects combining sound, visuals, and code for creative fun.</p>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-img">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Learning Projects</h3>
+                        <p>Small coding experiments in HTML, CSS, C++, and Java as I grow my skills and bring my ideas to life.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    
+        <section id="about">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-card">
+                    <p>Hello! I'm a 2nd-year student passionate about coding and creating fun projects. I'm still learning but have experience with HTML, CSS, and C++, and I specialize in Java.</p>
+                    <p>I've already developed a game called "Bug Hunter" and enjoy exploring new programming challenges while improving my skills.</p>
+                    <div class="skills">
+                        <span class="skill">HTML/CSS</span>
+                        <span class="skill">JavaScript</span>
+                        <span class="skill">React</span>
+                        <span class="skill">UI/UX Design</span>
+                        <span class="skill">Animation</span>
+                        <span class="skill">Responsive Design</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="contact">
+            <h2 class="section-title">Get In Touch</h2>
+            <form class="contact-form">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" placeholder="Your name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Your email">
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" rows="5" placeholder="Your message"></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </section>
+        
+        <footer>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-dribbble"></i></a>
+            </div>
+            <p>&copy; 2025 Alex Portfolio. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const body = document.body;
+            const themeToggle = document.getElementById('theme-toggle');
+            const greetingText = document.getElementById('greeting-text');
+            const greetingEmoji = document.getElementById('greeting-emoji');
+            const liveClock = document.getElementById('live-clock');
+            const skyAnimation = document.getElementById('sky-animation');
+            
+            // Check if user has a theme preference
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+            
+            // Initialize theme based on time
+            function setThemeBasedOnTime() {
+                const date = new Date();
+                const hours = date.getHours();
+                const isDayTime = hours >= 7 && hours < 19;
+                
+                if (isDayTime) {
+                    body.classList.remove('night-mode');
+                    setDayBackground();
+                } else {
+                    body.classList.add('night-mode');
+                    setNightBackground();
+                }
+                
+                setGreeting(hours);
+            }
+            
+            // Set greeting based on time of day
+            function setGreeting(hours) {
+                if (hours >= 5 && hours < 12) {
+                    greetingText.textContent = 'Good Morning';
+                    greetingEmoji.textContent = '🌞';
+                } else if (hours >= 12 && hours < 17) {
+                    greetingText.textContent = 'Good Afternoon';
+                    greetingEmoji.textContent = '☀️';
+                } else if (hours >= 17 && hours < 21) {
+                    greetingText.textContent = 'Good Evening';
+                    greetingEmoji.textContent = '🌅';
+                } else {
+                    greetingText.textContent = 'Good Night';
+                    greetingEmoji.textContent = '🌙';
+                }
+            }
+            
+            // Update clock
+            function updateClock() {
+                const date = new Date();
+                const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                liveClock.textContent = timeString;
+            }
+            
+            // Toggle theme manually
+            themeToggle.addEventListener('click', function() {
+                body.classList.toggle('night-mode');
+                
+                if (body.classList.contains('night-mode')) {
+                    setNightBackground();
+                } else {
+                    setDayBackground();
+                }
+            });
+            
+            // Set day background with animation
+            function setDayBackground() {
+                skyAnimation.innerHTML = '';
+                skyAnimation.style.background = 'linear-gradient(135deg, #ff9d00 0%, #ffd700 30%, #87ceeb 70%, #1e90ff 100%)';
+                
+                // Add sun with rays
+                const sun = document.createElement('div');
+                sun.style.position = 'absolute';
+                sun.style.width = '80px';
+                sun.style.height = '80px';
+                sun.style.background = '#ffd700';
+                sun.style.borderRadius = '50%';
+                sun.style.top = '15%';
+                sun.style.left = '15%';
+                sun.style.boxShadow = '0 0 60px #ffd700';
+                
+                const rays = document.createElement('div');
+                rays.className = 'sun-rays';
+                
+                sun.appendChild(rays);
+                skyAnimation.appendChild(sun);
+                
+                // Add some clouds
+                for (let i = 0; i < 5; i++) {
+                    const cloud = document.createElement('div');
+                    cloud.style.position = 'absolute';
+                    cloud.style.width = '120px';
+                    cloud.style.height = '40px';
+                    cloud.style.background = 'rgba(255, 255, 255, 0.8)';
+                    cloud.style.borderRadius = '40px';
+                    cloud.style.top = `${20 + Math.random() * 50}%`;
+                    cloud.style.left = `${Math.random() * 100}%`;
+                    cloud.style.animation = `moveCloud ${30 + Math.random() * 30}s linear infinite`;
+                    
+                    // Add cloud puff
+                    const cloudPuff = document.createElement('div');
+                    cloudPuff.style.position = 'absolute';
+                    cloudPuff.style.width = '50px';
+                    cloudPuff.style.height = '50px';
+                    cloudPuff.style.background = 'rgba(255, 255, 255, 0.8)';
+                    cloudPuff.style.borderRadius = '50%';
+                    cloudPuff.style.top = '-20px';
+                    cloudPuff.style.left = '35px';
+                    
+                    cloud.appendChild(cloudPuff);
+                    skyAnimation.appendChild(cloud);
+                    
+                    // Add keyframes for cloud movement
+                    const style = document.createElement('style');
+                    style.textContent = `
+                        @keyframes moveCloud {
+                            0% { transform: translateX(${Math.random() > 0.5 ? '-100%' : '100%'}); }
+                            100% { transform: translateX(${Math.random() > 0.5 ? '100%' : '-100%'}); }
+                        }
+                    `;
+                    document.head.appendChild(style);
+                }
+            }
+            
+            // Set night background with animation
+            function setNightBackground() {
+                skyAnimation.innerHTML = '';
+                skyAnimation.style.background = 'linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%)';
+                
+                // Add stars
+                for (let i = 0; i < 100; i++) {
+                    const star = document.createElement('div');
+                    star.className = 'star';
+                    star.style.width = `${Math.random() * 3}px`;
+                    star.style.height = star.style.width;
+                    star.style.top = `${Math.random() * 100}%`;
+                    star.style.left = `${Math.random() * 100}%`;
+                    star.style.animationDelay = `${Math.random() * 5}s`;
+                    skyAnimation.appendChild(star);
+                }
+                
+                // Add moon
+                const moon = document.createElement('div');
+                moon.style.position = 'absolute';
+                moon.style.width = '60px';
+                moon.style.height = '60px';
+                moon.style.background = '#f0f0f0';
+                moon.style.borderRadius = '50%';
+                moon.style.top = '15%';
+                moon.style.right = '15%';
+                moon.style.boxShadow = '0 0 40px #f0f0f0';
+                skyAnimation.appendChild(moon);
+                
+                // Add occasional shooting stars
+                setInterval(() => {
+                    if (Math.random() > 0.7) {
+                        createShootingStar();
+                    }
+                }, 5000);
+            }
+            
+            // Create shooting star animation
+            function createShootingStar() {
+                const shootingStar = document.createElement('div');
+                shootingStar.className = 'shooting-star';
+                shootingStar.style.top = `${Math.random() * 50}%`;
+                shootingStar.style.left = `${Math.random() * 50}%`;
+                shootingStar.style.width = `${50 + Math.random() * 100}px`;
+                shootingStar.style.animation = `shoot ${2 + Math.random() * 3}s linear`;
+                skyAnimation.appendChild(shootingStar);
+                
+                // Remove after animation completes
+                setTimeout(() => {
+                    shootingStar.remove();
+                }, 5000);
+            }
+            
+            // Initialize
+            setThemeBasedOnTime();
+            updateClock();
+            setInterval(updateClock, 1000);
+            
+            // Check for theme change every minute
+            setInterval(setThemeBasedOnTime, 60000);
+        });
+    </script>
+</body>
+</html>
